@@ -13,9 +13,45 @@ def lauchpage(request):
     return render(request, 'foodtracker/index_landing.html')
 
 
+def team(request):
+    return render(request, 'foodtracker/team.html')
+
+
+def shopping(request):
+    return render(request, 'foodtracker/shop.html')
+
+
 @login_required
 def home(request):
-    return render(request, 'foodtracker/home.html')
+    try:
+        total_exercise = round(
+            Exercise.objects.filter(user=request.user, time__date=datetime.date.today()).aggregate(Sum('calories'))[
+                'calories__sum'], 2)
+    except TypeError:
+        total_exercise = 0
+    try:
+        total_food = round(
+            Food.objects.filter(user=request.user, time__date=datetime.date.today()).aggregate(Sum('calories'))[
+                'calories__sum'], 2)
+    except TypeError:
+        total_food = 0
+
+    user_bmi = (request.user.profile.weight * 10000) / (request.user.profile.height ** 2)
+
+    if request.user.profile.gender == 'Male':
+        user_bmr = 88.362 + (13.397 * request.user.profile.weight) + (4.799 * request.user.profile.height) - (
+                5.677 * request.user.profile.age)
+    else:
+        user_bmr = 447.593 + (9.24 * request.user.profile.weight) + (3.098 * request.user.profile.height) - (
+                4.330 * request.user.profile.age)
+
+    context = {
+        'user_bmr': user_bmr,
+        'user_bmi': user_bmi,
+        'total_exercise': total_exercise,
+        'total_food': total_food
+    }
+    return render(request, 'foodtracker/profile.html', context)
 
 
 @login_required
@@ -116,7 +152,7 @@ def exercise_page(request):
         status_text = f'You need to burn {400 - cal_tot} more! Lets Start working out.. 💪'
 
     context = {
-        'status_text':status_text,
+        'status_text': status_text,
         'exercise_tables': exercise_tables,
         'total_exercise': cal_tot,
         'today': datetime.date.today(),

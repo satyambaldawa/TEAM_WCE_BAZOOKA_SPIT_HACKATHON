@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthyME</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{% static 'foodtracker/shop.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark"
+     style="background-image: linear-gradient(to bottom right, #55311c, #000); padding:10px 0">
+    <div class="container">
+        <img src="{% static 'foodtracker/navlogo.png' %}" alt="">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            {% if user.is_authenticated %}
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="{% url 'home-page' %}">{{ user.username }}</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'exercise' %}">Exercise</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'food' %}">Food</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home-page' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="https://durveshnp.github.io/Game-CSI-SPIT-Hackathon/">Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'shopping' %}">Shopping</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'team' %}">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'launch-page' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<main role="main">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="first-slide"
+                     src="https://www.netsolutions.com/insights/wp-content/uploads/2020/12/top-10-successful-online-food-delivery-apps-in-the-world.jpg"
+                     alt="First slide">
+                <div class="container">
+                    <div class="carousel-caption text-left">
+                        <h1> Top Food and Fitness in India</h1>
+                        <p>Given the COVID-19 lockdown and incessant monsoons, online stores are a great option to buy
+                            as opposed to walking to your local store; and they offer tons of benefits to boot.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img class="rounded-circle"
+                     src="data:image/png;base64,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"
+                     alt="Generic placeholder image" width="140px" height="140px">
+                <h2>Zomato</h2>
+                <p>Zomato is one of the most used food delivery apps. It's an online discovery market for ordering from
+                    the best restaurants around you. Zomato provides its service in 25 Countries. It allows you the
+                    convenience to sit back at home and search for any cuisine, restaurant, or even dish as you like!
+                    You can search up the menu, pictures of the restaurant/dish, directions, map view, contact details,
+                    and the different filters.</p>
+                <p><a class="btn btn-secondary" href="https://www.zomato.com/" role="button">View details &raquo;</a>
+                </p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle"
+                     src="data:image/png;base64,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"
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>Swiggy</h2>
+                <p>A lot of people prefer Swiggy for ordering their meals. One can always track their food online. It
+                    grants you the advantage of great offers and coupons. One also has other filters like cuisines,
+                    offers, delivery timing, ratings, and cost for two. Different payment modes are acceptable on this
+                    app making it easier for the customers to pay as they like. Whether it's Cash on Delivery, or online
+                    payment using Debit and Credit cards.</p>
+                <p><a class="btn btn-secondary" href="https://www.swiggy.com/" role="button">View details &raquo;</a>
+                </p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle"
+                     src="data:image/png;base64,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"
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>FoodPanda</h2>
+                <p>FoodPanda is one of the largest networking food delivery apps. It's used in 40 Countries, including
+                    almost all the cities in India. The best part about the app is that you will always have an option
+                    and backup! There are over 1,15,000+ restaurants so well.. you can order whatever you like from
+                    anywhere!</p>
+                <p><a class="btn btn-secondary" href="https://www.foodpanda.com/" role="button">View details &raquo;</a>
+                </p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="https://images.freekaamaal.com/post_images/1587987052.jpeg"
+                     width="140" height="140">
+                <h2>Cult.fit</h2>
+                <p>Exercise, meditation, yoga, a healthy diet, and other activities are all part of Cure.fit’s fitness
+                    and lifestyle software. The app allows you to watch live fitness and yoga sessions. The Cure.fit
+                    platform offers professional coaching, competition with other users, and progress tracking.</p>
+                <p><a class="btn btn-secondary" href="https://www.cult.fit/" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="https://images.freekaamaal.com/post_images/1587986800.png"
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>Aaptiv</h2>
+                <p>Aaptiv gives you the best training and fitness workout sessions at any place you want. You can get
+                    unlimited access to audio fitness sessions and classes taken by certified trainers. It also has many
+                    music playlists to keep you motivated and in rhythm. It has a variety of workouts like strength
+                    training, stretching, running, race training, yoga and more.
+                </p>
+                <p><a class="btn btn-secondary" href="https://aaptiv.com/" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="rounded-circle" src="https://images.freekaamaal.com/post_images/1587986826.png"
+                     alt="Generic placeholder image" width="140" height="140">
+                <h2>Keelo</h2>
+                <p>Keelo is a top-rated workout app that is used for high-intensity strength and conditioning programs.
+                    It has a full-body workout program where the app combines cardio, strength and conditioning into one
+                    whole program. The app also provides personalized workout programs for its users. You can use this
+                    app anywhere, be it home or gym.It has free and premium features as well. You can access the premium
+                    features by joining the subscription. </p>
+                <p><a class="btn btn-secondary" href="https://keelo.com/" role="button">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+
+
+    </div><!-- /.container -->
+    <br><br><br>
+
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+</body>
