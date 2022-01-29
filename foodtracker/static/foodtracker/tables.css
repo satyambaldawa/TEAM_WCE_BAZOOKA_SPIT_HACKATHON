@@ -1,0 +1,64 @@
+/*.container {*/
+/*    padding: 0 15vw 10vh 15vw;*/
+/*}*/
+
+.container h1, h2 {
+    padding-bottom: 3vh;
+}
+
+thead {
+    background-color: #7d695e;
+    color: whitesmoke;
+    text-align: center;
+    font-weight: 500;
+    font-size: large;
+}
+
+table tr:hover {
+    background-color: #7d695e;
+    color: whitesmoke;
+}
+
+.div-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: right;
+}
+
+input {
+    max-width: 200px;
+    text-align: center;
+    margin: auto;
+    align-items: center;
+}
+
+button {
+    margin-right: auto;
+    margin-left: 0.8vw;
+}
+
+#wgt {
+    margin-left: 20px;
+}
+
+.btn-outline-dark {
+    border-color: #7d695e;
+    border-width: 2px;
+    border-radius: 20%;
+}
+
+.btn-outline-dark:hover {
+    background-color: #7d695e;
+    color: whitesmoke;
+    border-color: #7d695e;
+}
+
+.chart-wrapper {
+    width: 120vh;
+    /*height: 120vh;*/
+    margin: 70px auto;
+}
+
+#we_want {
+    display: flex;
+}

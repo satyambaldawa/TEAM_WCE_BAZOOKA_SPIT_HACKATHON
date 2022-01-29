@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthyME</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway:400,200'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{% static 'foodtracker/landing/style.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+<div class="scroll-down">
+    <img src="{% static 'foodtracker/landing/img/logo.png' %}" alt="">
+    <p class="modal-desc">
+        HealthyME is a webapp to track our daily diet. You can pin down every single thing you eat and exercise. We will
+        provide you daily chart of calories consumed or burned. We make calorie counted meal plans so yummy
+        you want to go on a diet.
+    </p>
+</div>
+<div class="modal">
+    <div class="modal-container">
+        <div class="modal-left">
+            <h1 class="modal-title">Login</h1>
+
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="input-block">
+                    <label for="username" class="input-label">User Id</label>
+                    <input type="text" name="username" id="username" placeholder="Username">
+                </div>
+                <div class="input-block">
+                    <label for="password" class="input-label">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="modal-buttons">
+                    <a href="#" class="">Forgot your password?</a>
+                    <button class="input-button" type="submit">Login</button>
+                </div>
+            </form>
+
+            <p class="sign-up">Don't have an account? <a href="{% url 'register' %}">Sign up now</a></p>
+        </div>
+        <div class="modal-right">
+            <img src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dfd2ec5a01006fd8c4d7592a381d3776&auto=format&fit=crop&w=1000&q=80"
+                 alt="">
+        </div>
+        <button class="icon-button close-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
+            </svg>
+        </button>
+    </div>
+    <div>
+        <button class="modal-button">Login</button>
+        <button onclick="document.location= {% url 'register' %}" class="modal-button">Register</button>
+    </div>
+</div>
+
+<div class="header">
+    <h1>FEATURES</h1>
+
+</div>
+
+<div class="row1-container">
+    <div class="box box-down cyan">
+        <h2>Daily Picharts</h2>
+        <p>Monitors daily calories and provides a piechart</p>
+        <img style="width: 64px;" src="https://www.iconpacks.net/icons/1/free-pie-chart-icon-683-thumb.png" alt="">
+    </div>
+
+    <div class="box red">
+        <h2>Food Tracker</h2>
+        <p>Scans your given sentence. Table displays food at time eaten with calories</p>
+        <img style="width: 64px;"
+             src="https://static.vecteezy.com/system/resources/previews/003/159/641/non_2x/online-nutrition-tracker-rgb-color-icon-vector.jpg"
+             alt="">
+    </div>
+
+    <div class="box box-down blue">
+        <h2>Voice to text speech</h2>
+        <p>Convert spoken speech to writen text</p>
+        <img style="width: 64px;" src="{% static 'foodtracker/landing/img/voice.png' %}" alt="">
+    </div>
+</div>
+<div class="row2-container">
+    <div class="box orange">
+        <h2>Exercise Tracker</h2>
+        <p>Scans your given sentence. Table displays exercise at given time with calories burned</p>
+        <img style="width: 64px;" src="{% static 'foodtracker/landing/img/pi.png' %}" alt="">
+    </div>
+</div>
+
+<div style="height: 20vh;"></div>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script src="{% static 'foodtracker/landing/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{% extends "foodtracker/base.html" %}
+{% block content %}
+
+    <h1>{{ user.username }}</h1>
+    <h2> {{ user.profile.age }}</h2>
+    <h3>height: {{ user.profile.height }}cm <br> weight: {{ user.profile.weight }}kg</h3>
+
+
+    <form id="exercise" action="{% url 'add-exercise' %}" method="post">
+        {% csrf_token %}
+        <!-- <div id="output"></div> -->
+        <input type="text" id="output" name='exercise_text' class="chatbot__input"
+               placeholder="Add what exercise you did or Tap on mic..."/>
+    </form>
+    <p>
+        <button type="button" onclick="runSpeechRecognition()">Speech to Text</button> &nbsp; <span id="action"></span>
+    </p>
+
+    <script>
+        function runSpeechRecognition() {
+            // get output div reference
+            var output = document.getElementById("output");
+            // get action element reference
+            var action = document.getElementById("action");
+            // new speech recognition object
+            var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+            var recognition = new SpeechRecognition();
+
+            // This runs when the speech recognition service returns result
+            recognition.onresult = function (event) {
+                var transcript = event.results[0][0].transcript;
+
+                output.value = transcript;
+                output.classList.remove("hide");
+                document.getElementById('exercise').submit()
+            };
+
+            // start recognition
+            recognition.start();
+        }
+    </script>
+{% endblock %}
+
+{#</body>#}
+{#</html>#}
+{##}
+{#<!doctype html>#}
+{##}
+{#<head>#}
+{#    <style>#}
+{#        /* CSS comes here */#}
+{#        body {#}
+{#            font-family: arial;#}
+{#        }#}
+{##}
+{#        button {#}
+{#            padding: 10px;#}
+{#            background-color: #6a67ce;#}
+{#            color: #FFFFFF;#}
+{#            border: 0px;#}
+{#            cursor: pointer;#}
+{#            border-radius: 5px;#}
+{#        }#}
+{##}
+{#        #output {#}
+{#            background-color: #F9F9F9;#}
+{#            padding: 10px;#}
+{#            width: 100%;#}
+{#            margin-top: 20px;#}
+{#            line-height: 30px;#}
+{#        }#}
+{##}
+{#        .hide {#}
+{#            display: none;#}
+{#        }#}
+{##}
+{#        .show {#}
+{#            display: block;#}
+{#        }#}
+{#    </style>#}
+{#    <title>JavaScript Speech to Text</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{##}
+{#<p>#}
+{#    <button type="button" onclick="runSpeechRecognition()">Speech to Text</button> &nbsp; <span id="action"></span>#}
+{#</p>#}
+{#<form action="{% url 'add-exercise' %}" method="post">#}
+{#    {% csrf_token %}#}
+{#    <!-- <div id="output"></div> -->#}
+{#    <input type="text" id="output" name='exercise_text' class="chatbot__input"#}
+{#           placeholder="Add what exercise you did or Tap on mic..."/>#}
+{#</form>#}
+{##}
+{#<script>#}
+{#    /* JS comes here */#}
+{#    function runSpeechRecognition() {#}
+{#        // get output div reference#}
+{#        var output = document.getElementById("output");#}
+{#        // get action element reference#}
+{#        var action = document.getElementById("action");#}
+{#        // new speech recognition object#}
+{#        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;#}
+{#        var recognition = new SpeechRecognition();#}
+{##}
+{#        // This runs when the speech recognition service returns result#}
+{#        recognition.onresult = function (event) {#}
+{#            var transcript = event.results[0][0].transcript;#}
+{##}
+{#            output.value = transcript;#}
+{#            output.classList.remove("hide");#}
+{#        };#}
+{##}
+{#        // start recognition#}
+{#        recognition.start();#}
+{#    }#}
+{##}
+{#</script>#}
+{#</body>#}
+{##}
+{#</html>#}

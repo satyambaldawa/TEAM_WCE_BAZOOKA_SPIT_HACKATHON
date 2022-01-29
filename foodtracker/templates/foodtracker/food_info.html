@@ -1,0 +1,140 @@
+{% extends "foodtracker/table_base.html" %}
+{% block content %}
+    <br>
+    <div class="container">
+        <h1 style="color: #55311c;margin: auto;text-align: center">
+            Food Table
+        </h1>
+        <div style="text-align: center;">
+            <h2>You have gained
+                <u>{{ total_food }}</u> calories today 🥪
+            </h2>
+            <h4 class="text">{{ status_text }}</h4></div>
+        <p>Tell us what you ate...</p>
+        <div class="input div-inline">
+            <form id="food" action="{% url 'add-food' %}" method="post">
+                {% csrf_token %}
+                <input type="text" id="output" class="form-control" name='food_text' placeholder="Add Food"
+                       aria-label="Username"
+                       aria-describedby="basic-addon1">
+
+                {#                <input type="text" id="output" name='exercise_text' placeholder="Add what exercise you did or Tap on mic..."/>#}
+            </form>
+            <button type="button" class="btn btn-outline-dark" onclick="runSpeechRecognition()">Speak</button>
+            &nbsp;<span id="action"></span>
+            <script>
+                function runSpeechRecognition() {
+                    // get output div reference
+                    var output = document.getElementById("output");
+                    // get action element reference
+                    var action = document.getElementById("action");
+                    // new speech recognition object
+                    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+                    var recognition = new SpeechRecognition();
+
+                    // This runs when the speech recognition service returns result
+                    recognition.onresult = function (event) {
+                        var transcript = event.results[0][0].transcript;
+
+                        output.value = transcript;
+                        output.classList.remove("hide");
+                        document.getElementById('food').submit()
+                    };
+
+                    // start recognition
+                    recognition.start();
+                }
+            </script>
+
+        </div>
+        <br><br>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Date &nbsp; {{ today }}</th>
+                <th scope="col">Food</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Calories</th>
+                <th scope="col">Weight</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for food_table in food_tables %}
+                <tr>
+                    <td>{{ food_table.time|date:"P" }}</td>
+                    <td>{{ food_table.food }}</td>
+                    <td>{{ food_table.qty }}</td>
+                    <td>{{ food_table.unit }}</td>
+                    <td>{{ food_table.calories }}</td>
+                    <td>{{ food_table.weight }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div id="we_want">
+            {% if total_food > 0 %}
+                <div class="chart-wrapper">
+                    <center>
+                        <h2>Food Calories</h2>
+                    </center>
+                    <canvas id="myChart1"></canvas>
+                </div>
+            {% endif %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+            <script>
+                let ctx1 = document.getElementById("myChart1").getContext("2d");
+                let colorHex1 = ["#FB3640", "#EFCA08", "#43AA8B", "#253D5B", "#ff0000", "#0000ff", "#73ffff", "#fff000", "#f0f0f0"];
+
+
+                let myChart1 = new Chart(ctx1, {
+                    type: "pie",
+                    data: {
+                        datasets: [
+                            {
+                                data: {{data|safe}},
+                                backgroundColor: colorHex1,
+                            },
+                        ],
+                        labels: {{labels|safe}},
+                    },
+                    options: {
+                        responsive: true,
+                        legend: {
+                            position: "top",
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: "#fff",
+                                anchor: "end",
+                                align: "start",
+                                offset: -10,
+                                borderWidth: 5,
+                                borderColor: "#fff",
+                                borderRadius: 25,
+                                backgroundColor: (context) => {
+                                    return context.dataset.backgroundColor;
+                                },
+                                font: {
+                                    weight: "bold",
+                                    size: "10",
+                                },
+                                formatter: (value) => {
+                                    return value + " %";
+                                },
+                            },
+                        },
+                    },
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}
+
+
